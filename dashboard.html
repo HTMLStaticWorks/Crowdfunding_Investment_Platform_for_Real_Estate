@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Investor Dashboard | Aura Portfolio</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <meta name="description" content="Manage your real estate investment portfolio on the Aura investor dashboard.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            charcoal: '#1A1A1A', nearblack: '#0D0D0D', ivory: '#F9F8F6',
+                            stone: '#D9D5D0', gold: '#C5A880', mutedgold: '#D4C0A1',
+                            sidebar: '#111111'
+                        }
+                    },
+                    fontFamily: { sans: ['Inter', 'sans-serif'], display: ['Playfair Display', 'serif'] }
+                }
+            }
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <style type="text/tailwindcss">
+        .nav-item {
+            @apply flex items-center gap-3 px-4 py-3 rounded-sm text-sm font-medium text-gray-400 hover:text-white hover:bg-white/5 transition-all duration-200 cursor-pointer;
+        }
+        .nav-item.active {
+            @apply bg-brand-gold/10 text-brand-gold border-l-2 border-brand-gold;
+        }
+        .stat-card {
+            @apply bg-white dark:bg-brand-charcoal p-4 md:p-6 rounded-sm border border-brand-stone/20 dark:border-white/5 shadow-sm flex flex-col;
+        }
+        .section-panel {
+            @apply bg-white dark:bg-brand-charcoal rounded-sm border border-brand-stone/20 dark:border-white/5 shadow-sm p-6;
+        }
+    </style>
+</head>
+<body class="antialiased bg-brand-ivory dark:bg-[#0A0A0A] text-brand-charcoal dark:text-brand-ivory min-h-screen transition-colors duration-300">
+
+    <div class="flex h-screen overflow-hidden">
+
+        <!-- ====== SIDEBAR ====== -->
+        <aside id="sidebar" class="fixed inset-y-0 left-0 z-50 w-64 bg-brand-nearblack dark:bg-brand-sidebar flex flex-col transition-transform duration-300 -translate-x-full lg:translate-x-0 lg:static lg:inset-auto lg:z-auto border-r border-white/5">
+            <!-- Sidebar Header -->
+            <div class="flex items-center justify-between p-6 border-b border-white/5">
+                <a href="index.html" class="font-display font-bold text-xl tracking-wider text-white flex items-center gap-2">
+                    <svg class="w-6 h-6 text-brand-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+                    AURA
+                </a>
+                <button id="sidebar-close" class="lg:hidden text-gray-400 hover:text-white" aria-label="Close menu">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+
+            <!-- Investor Profile -->
+            <div class="px-6 py-4 border-b border-white/5">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-brand-gold text-brand-charcoal rounded-full flex items-center justify-center font-bold text-sm flex-shrink-0">JW</div>
+                    <div class="min-w-0">
+                        <div class="text-white text-sm font-medium truncate">James Whitfield</div>
+                        <div class="text-gray-500 text-xs truncate">Individual Investor</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Nav Items -->
+            <nav class="flex-grow overflow-y-auto px-3 py-4 space-y-1">
+                <button class="nav-item active w-full text-left" data-panel="overview">
+                    <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                    Overview
+                </button>
+                <button class="nav-item w-full text-left" data-panel="portfolio">
+                    <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+                    My Portfolio
+                </button>
+                <button class="nav-item w-full text-left" data-panel="opportunities">
+                    <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                    Opportunities
+                </button>
+                <button class="nav-item w-full text-left" data-panel="transactions">
+                    <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
+                    Transactions
+                </button>
+                <button class="nav-item w-full text-left" data-panel="distributions">
+                    <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    Distributions
+                </button>
+                <button class="nav-item w-full text-left" data-panel="documents">
+                    <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                    Documents
+                </button>
+
+                <div class="pt-4 pb-2 px-1">
+                    <div class="text-gray-600 text-xs uppercase tracking-widest font-medium">Account</div>
+                </div>
+                <button class="nav-item w-full text-left" data-panel="profile">
+                    <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                    Profile
+                </button>
+                <button class="nav-item w-full text-left" data-panel="settings">
+                    <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                    Settings
+                </button>
+            </nav>
+
+            <!-- Bottom controls -->
+            <div class="p-4 border-t border-white/5 space-y-2">
+                <button id="dash-theme-toggle" class="nav-item w-full text-left">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+                    Toggle Theme
+                </button>
+                <button id="dash-rtl-toggle" class="nav-item w-full text-left">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path></svg>
+                    Toggle RTL
+                </button>
+                <a href="index.html" class="nav-item w-full text-left text-red-400 hover:text-red-300 hover:bg-red-500/10">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+                    Log Out
+                </a>
+            </div>
+        </aside>
+
+        <!-- Sidebar Overlay -->
+        <div id="sidebar-overlay" class="fixed inset-0 bg-black/60 z-40 hidden lg:hidden" aria-hidden="true"></div>
+
+        <!-- ====== MAIN CONTENT ====== -->
+        <div class="flex-1 flex flex-col min-w-0 overflow-hidden">
+            <!-- Dashboard Top Bar -->
+            <header class="bg-white dark:bg-brand-charcoal border-b border-brand-stone/20 dark:border-white/5 px-6 py-4 flex items-center justify-between flex-shrink-0 shadow-sm">
+                <div class="flex items-center gap-4">
+                    <button id="sidebar-open" class="lg:hidden text-gray-500 dark:text-gray-400 hover:text-brand-gold transition-colors" aria-label="Open menu">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                    </button>
+                    <div>
+                        <h1 id="panel-title" class="font-semibold text-lg">Portfolio Overview</h1>
+                        <p class="text-xs text-gray-500">Q3 2026 — Illustrative Demo Data</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-4">
+                    <span class="text-xs text-gray-400 hidden md:block">Last updated: Today, 3:47 PM</span>
+                    <a href="properties.html" class="bg-brand-charcoal dark:bg-brand-gold text-white dark:text-brand-charcoal px-4 py-2 rounded-sm text-xs font-medium uppercase tracking-wider hover:bg-brand-gold transition-colors hidden sm:block whitespace-nowrap">Invest More</a>
+                </div>
+            </header>
+
+            <!-- Scrollable Content -->
+            <main class="flex-1 overflow-y-auto p-6">
+
+                <!-- ====== PANEL: Overview ====== -->
+                <div id="panel-overview" class="panel-content">
+                    <!-- Section 1: Portfolio Overview Stats -->
+                    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-8">
+                        <div class="stat-card col-span-2 md:col-span-1">
+                            <div class="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2 min-h-[2.5rem]">Portfolio Value</div>
+                            <div class="text-xl md:text-2xl font-bold font-mono">$125,450</div>
+                            <div class="text-green-500 text-xs mt-auto pt-2 font-medium whitespace-nowrap -ml-1">▲ +8.2% YTD</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2 min-h-[2.5rem]">Invested Capital</div>
+                            <div class="text-xl md:text-2xl font-bold font-mono">$115,000</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2 min-h-[2.5rem]">Distributions</div>
+                            <div class="text-xl md:text-2xl font-bold font-mono">$10,450</div>
+                            <div class="text-brand-gold text-xs mt-auto pt-2 whitespace-nowrap">Received</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2 min-h-[2.5rem]">Active Investments</div>
+                            <div class="text-xl md:text-2xl font-bold font-mono">4</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2 min-h-[2.5rem]">Total Return</div>
+                            <div class="text-2xl font-bold font-mono text-green-600 dark:text-green-400">9.1%</div>
+                        </div>
+                    </div>
+
+                    <!-- Section 3: Portfolio Performance Chart -->
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+                        <div class="section-panel lg:col-span-2">
+                            <div class="flex justify-between items-center mb-4">
+                                <h2 class="font-semibold">Portfolio Performance</h2>
+                                <span class="text-xs text-gray-400 bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded">Illustrative</span>
+                            </div>
+                            <div style="height:240px; position:relative;">
+                                <canvas id="dash-portfolio-chart"></canvas>
+                            </div>
+                        </div>
+                        <div class="section-panel">
+                            <h2 class="font-semibold mb-4">Allocation by Asset</h2>
+                            <div style="height:180px; position:relative;">
+                                <canvas id="dash-alloc-chart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section 2: Available Investment Opportunities -->
+                    <div class="section-panel mb-8">
+                        <div class="flex justify-between items-center mb-6">
+                            <h2 class="font-semibold">New Investment Opportunities</h2>
+                            <a href="properties.html" class="text-brand-gold text-xs font-medium uppercase tracking-wider hover:underline">View All →</a>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+                            <!-- Opp Card 1 -->
+                            <div class="border border-brand-stone/20 dark:border-white/5 rounded-sm overflow-hidden hover:border-brand-gold transition-colors group flex flex-col h-full">
+                                <div class="h-36 overflow-hidden">
+                                    <img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&q=80&w=600" alt="The Manhattan Tower" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                </div>
+                                <div class="p-4 flex flex-col flex-grow">
+                                    <h3 class="font-semibold text-sm mb-1">The Manhattan Tower</h3>
+                                    <p class="text-xs text-gray-500 mb-3">New York, NY • Commercial</p>
+                                    <div class="flex justify-between text-xs mb-2 mt-auto">
+                                        <span class="text-gray-400">Min. Investment</span>
+                                        <span class="font-medium">$25,000</span>
+                                    </div>
+                                    <div class="flex justify-between text-xs mb-3">
+                                        <span class="text-gray-400">Target Return</span>
+                                        <span class="font-medium text-brand-gold">12.5%</span>
+                                    </div>
+                                    <div class="w-full bg-gray-200 dark:bg-gray-700 h-1 rounded-full mb-3">
+                                        <div class="bg-brand-gold h-full rounded-full" style="width:75%"></div>
+                                    </div>
+                                    <a href="properties.html" class="block w-full text-center text-xs py-2 border border-brand-gold text-brand-gold hover:bg-brand-gold hover:text-brand-charcoal rounded-sm transition-colors font-medium whitespace-nowrap">View Opportunity</a>
+                                </div>
+                            </div>
+                            <!-- Opp Card 2 -->
+                            <div class="border border-brand-stone/20 dark:border-white/5 rounded-sm overflow-hidden hover:border-brand-gold transition-colors group flex flex-col h-full">
+                                <div class="h-36 overflow-hidden">
+                                    <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&q=80&w=600" alt="Azure Residences" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                </div>
+                                <div class="p-4 flex flex-col flex-grow">
+                                    <h3 class="font-semibold text-sm mb-1">Azure Residences</h3>
+                                    <p class="text-xs text-gray-500 mb-3">Miami, FL • Multifamily</p>
+                                    <div class="flex justify-between text-xs mb-2 mt-auto">
+                                        <span class="text-gray-400">Min. Investment</span>
+                                        <span class="font-medium">$10,000</span>
+                                    </div>
+                                    <div class="flex justify-between text-xs mb-3">
+                                        <span class="text-gray-400">Target Return</span>
+                                        <span class="font-medium text-brand-gold">15.0%</span>
+                                    </div>
+                                    <div class="w-full bg-gray-200 dark:bg-gray-700 h-1 rounded-full mb-3">
+                                        <div class="bg-brand-gold h-full rounded-full" style="width:30%"></div>
+                                    </div>
+                                    <a href="properties.html" class="block w-full text-center text-xs py-2 border border-brand-gold text-brand-gold hover:bg-brand-gold hover:text-brand-charcoal rounded-sm transition-colors font-medium whitespace-nowrap">View Opportunity</a>
+                                </div>
+                            </div>
+                            <!-- Opp Card 3 -->
+                            <div class="border border-brand-stone/20 dark:border-white/5 rounded-sm overflow-hidden hover:border-brand-gold transition-colors group flex flex-col h-full md:col-span-2 md:mx-auto md:w-[calc(50%-0.5rem)] xl:col-span-1 xl:w-auto">
+                                <div class="h-36 overflow-hidden">
+                                    <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&q=80&w=600" alt="Coastal Resort" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                </div>
+                                <div class="p-4 flex flex-col flex-grow">
+                                    <h3 class="font-semibold text-sm mb-1">Coastal Resort & Spa</h3>
+                                    <p class="text-xs text-gray-500 mb-3">Charleston, SC • Hospitality</p>
+                                    <div class="flex justify-between text-xs mb-2 mt-auto">
+                                        <span class="text-gray-400">Min. Investment</span>
+                                        <span class="font-medium">$100,000</span>
+                                    </div>
+                                    <div class="flex justify-between text-xs mb-3">
+                                        <span class="text-gray-400">Target Return</span>
+                                        <span class="font-medium text-brand-gold">18.0%</span>
+                                    </div>
+                                    <div class="w-full bg-gray-200 dark:bg-gray-700 h-1 rounded-full mb-3">
+                                        <div class="bg-brand-gold h-full rounded-full" style="width:55%"></div>
+                                    </div>
+                                    <a href="properties.html" class="block w-full text-center text-xs py-2 border border-brand-gold text-brand-gold hover:bg-brand-gold hover:text-brand-charcoal rounded-sm transition-colors font-medium whitespace-nowrap">View Opportunity</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section 4: Distribution History Table -->
+                    <div class="section-panel mb-8">
+                        <div class="flex justify-between items-center mb-6">
+                            <h2 class="font-semibold">Distribution History</h2>
+                            <span class="text-xs text-gray-400 bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded">Illustrative Demo</span>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-sm min-w-[600px]">
+                                <thead>
+                                    <tr class="text-left border-b border-gray-100 dark:border-gray-800">
+                                        <th class="pb-3 text-xs text-gray-400 uppercase tracking-wider font-medium">Property</th>
+                                        <th class="pb-3 text-xs text-gray-400 uppercase tracking-wider font-medium">Date</th>
+                                        <th class="pb-3 text-xs text-gray-400 uppercase tracking-wider font-medium">Amount</th>
+                                        <th class="pb-3 text-xs text-gray-400 uppercase tracking-wider font-medium">Type</th>
+                                        <th class="pb-3 text-xs text-gray-400 uppercase tracking-wider font-medium">Status</th>
+                                        <th class="pb-3 text-xs text-gray-400 uppercase tracking-wider font-medium">Reference</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-gray-50 dark:divide-gray-800">
+                                    <tr class="hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
+                                        <td class="py-3.5 font-medium">The Manhattan Tower</td>
+                                        <td class="py-3.5 text-gray-500">Sep 1, 2026</td>
+                                        <td class="py-3.5 font-mono font-semibold text-green-600 dark:text-green-400">+$1,625</td>
+                                        <td class="py-3.5"><span class="text-xs bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 px-2 py-0.5 rounded">Operating</span></td>
+                                        <td class="py-3.5"><span class="text-xs bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 px-2 py-0.5 rounded">Paid</span></td>
+                                        <td class="py-3.5 text-xs text-gray-400 font-mono">AUR-2026-0901</td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
+                                        <td class="py-3.5 font-medium">Azure Residences</td>
+                                        <td class="py-3.5 text-gray-500">Sep 1, 2026</td>
+                                        <td class="py-3.5 font-mono font-semibold text-green-600 dark:text-green-400">+$875</td>
+                                        <td class="py-3.5"><span class="text-xs bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 px-2 py-0.5 rounded">Operating</span></td>
+                                        <td class="py-3.5"><span class="text-xs bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 px-2 py-0.5 rounded">Paid</span></td>
+                                        <td class="py-3.5 text-xs text-gray-400 font-mono">AUR-2026-0902</td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
+                                        <td class="py-3.5 font-medium">Tech Hub Logistics</td>
+                                        <td class="py-3.5 text-gray-500">Jun 1, 2026</td>
+                                        <td class="py-3.5 font-mono font-semibold text-green-600 dark:text-green-400">+$3,200</td>
+                                        <td class="py-3.5"><span class="text-xs bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-400 px-2 py-0.5 rounded">Capital Return</span></td>
+                                        <td class="py-3.5"><span class="text-xs bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 px-2 py-0.5 rounded">Paid</span></td>
+                                        <td class="py-3.5 text-xs text-gray-400 font-mono">AUR-2026-0603</td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
+                                        <td class="py-3.5 font-medium">The Manhattan Tower</td>
+                                        <td class="py-3.5 text-gray-500">Oct 1, 2026</td>
+                                        <td class="py-3.5 font-mono font-semibold text-gray-400">$1,625</td>
+                                        <td class="py-3.5"><span class="text-xs bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 px-2 py-0.5 rounded">Operating</span></td>
+                                        <td class="py-3.5"><span class="text-xs bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400 px-2 py-0.5 rounded">Scheduled</span></td>
+                                        <td class="py-3.5 text-xs text-gray-400 font-mono">AUR-2026-1001</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Section 5: Documents -->
+                    <div class="section-panel">
+                        <div class="flex justify-between items-center mb-6">
+                            <h2 class="font-semibold">Tax & Investor Documents</h2>
+                            <span class="text-xs text-gray-400 bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded">Demo Documents</span>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+                            <!-- Document cards -->
+                            <div class="flex items-center justify-between p-4 border border-brand-stone/20 dark:border-white/5 rounded-sm hover:border-brand-gold transition-colors">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-9 h-9 bg-red-100 dark:bg-red-900/20 text-red-600 rounded flex items-center justify-center flex-shrink-0 text-xs font-bold">PDF</div>
+                                    <div>
+                                        <div class="font-medium text-sm">2025 Schedule K-1</div>
+                                        <div class="text-xs text-gray-500">Manhattan Tower</div>
+                                    </div>
+                                </div>
+                                <div class="flex gap-2">
+                                    <button class="text-brand-gold hover:text-brand-charcoal dark:hover:text-white text-xs font-medium transition-colors">View</button>
+                                    <button class="text-gray-400 hover:text-brand-gold text-xs font-medium transition-colors">↓</button>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between p-4 border border-brand-stone/20 dark:border-white/5 rounded-sm hover:border-brand-gold transition-colors">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-9 h-9 bg-green-100 dark:bg-green-900/20 text-green-600 rounded flex items-center justify-center flex-shrink-0 text-xs font-bold">PDF</div>
+                                    <div>
+                                        <div class="font-medium text-sm">Q3 2026 Statement</div>
+                                        <div class="text-xs text-gray-500">Portfolio Summary</div>
+                                    </div>
+                                </div>
+                                <div class="flex gap-2">
+                                    <button class="text-brand-gold hover:text-brand-charcoal dark:hover:text-white text-xs font-medium transition-colors">View</button>
+                                    <button class="text-gray-400 hover:text-brand-gold text-xs font-medium transition-colors">↓</button>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between p-4 border border-brand-stone/20 dark:border-white/5 rounded-sm hover:border-brand-gold transition-colors">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-9 h-9 bg-blue-100 dark:bg-blue-900/20 text-blue-600 rounded flex items-center justify-center flex-shrink-0 text-xs font-bold">PDF</div>
+                                    <div>
+                                        <div class="font-medium text-sm">Asset Report Q3</div>
+                                        <div class="text-xs text-gray-500">Azure Residences</div>
+                                    </div>
+                                </div>
+                                <div class="flex gap-2">
+                                    <button class="text-brand-gold hover:text-brand-charcoal dark:hover:text-white text-xs font-medium transition-colors">View</button>
+                                    <button class="text-gray-400 hover:text-brand-gold text-xs font-medium transition-colors">↓</button>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between p-4 border border-brand-stone/20 dark:border-white/5 rounded-sm hover:border-brand-gold transition-colors">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-9 h-9 bg-purple-100 dark:bg-purple-900/20 text-purple-600 rounded flex items-center justify-center flex-shrink-0 text-xs font-bold">PDF</div>
+                                    <div>
+                                        <div class="font-medium text-sm">Subscription Agreement</div>
+                                        <div class="text-xs text-gray-500">Tech Hub Logistics</div>
+                                    </div>
+                                </div>
+                                <div class="flex gap-2">
+                                    <button class="text-brand-gold hover:text-brand-charcoal dark:hover:text-white text-xs font-medium transition-colors">View</button>
+                                    <button class="text-gray-400 hover:text-brand-gold text-xs font-medium transition-colors">↓</button>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between p-4 border border-brand-stone/20 dark:border-white/5 rounded-sm hover:border-brand-gold transition-colors">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-9 h-9 bg-yellow-100 dark:bg-yellow-900/20 text-yellow-600 rounded flex items-center justify-center flex-shrink-0 text-xs font-bold">PDF</div>
+                                    <div>
+                                        <div class="font-medium text-sm">Distribution Record</div>
+                                        <div class="text-xs text-gray-500">Q2 & Q3 2026</div>
+                                    </div>
+                                </div>
+                                <div class="flex gap-2">
+                                    <button class="text-brand-gold hover:text-brand-charcoal dark:hover:text-white text-xs font-medium transition-colors">View</button>
+                                    <button class="text-gray-400 hover:text-brand-gold text-xs font-medium transition-colors">↓</button>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between p-4 border border-brand-stone/20 dark:border-white/5 rounded-sm hover:border-brand-gold transition-colors">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-9 h-9 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 rounded flex items-center justify-center flex-shrink-0 text-xs font-bold">PDF</div>
+                                    <div>
+                                        <div class="font-medium text-sm">2025 Tax Summary</div>
+                                        <div class="text-xs text-gray-500">All Properties</div>
+                                    </div>
+                                </div>
+                                <div class="flex gap-2">
+                                    <button class="text-brand-gold hover:text-brand-charcoal dark:hover:text-white text-xs font-medium transition-colors">View</button>
+                                    <button class="text-gray-400 hover:text-brand-gold text-xs font-medium transition-colors">↓</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- end panel-overview -->
+
+                <!-- Other panels (shown when nav clicked) -->
+                <div id="panel-portfolio" class="panel-content hidden">
+                    <div class="section-panel">
+                        <h2 class="font-semibold text-xl mb-6">My Portfolio</h2>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-sm text-left">
+                                <thead class="text-xs text-gray-500 uppercase bg-gray-50 dark:bg-gray-800/50">
+                                    <tr>
+                                        <th class="px-4 py-3 font-medium">Property</th>
+                                        <th class="px-4 py-3 font-medium">Type</th>
+                                        <th class="px-4 py-3 font-medium text-right">Invested</th>
+                                        <th class="px-4 py-3 font-medium text-right">Current Value</th>
+                                        <th class="px-4 py-3 font-medium text-right">Return</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-brand-stone/20 dark:divide-white/5">
+                                    <tr class="hover:bg-gray-50 dark:hover:bg-gray-800/30 transition-colors">
+                                        <td class="px-4 py-4 font-medium">The Manhattan Tower</td>
+                                        <td class="px-4 py-4 text-gray-500">Commercial</td>
+                                        <td class="px-4 py-4 text-right font-mono">$50,000</td>
+                                        <td class="px-4 py-4 text-right font-mono text-brand-gold">$54,200</td>
+                                        <td class="px-4 py-4 text-right text-green-500">+8.4%</td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50 dark:hover:bg-gray-800/30 transition-colors">
+                                        <td class="px-4 py-4 font-medium">Azure Residences</td>
+                                        <td class="px-4 py-4 text-gray-500">Multifamily</td>
+                                        <td class="px-4 py-4 text-right font-mono">$25,000</td>
+                                        <td class="px-4 py-4 text-right font-mono text-brand-gold">$28,150</td>
+                                        <td class="px-4 py-4 text-right text-green-500">+12.6%</td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50 dark:hover:bg-gray-800/30 transition-colors">
+                                        <td class="px-4 py-4 font-medium">Austin Tech Hub</td>
+                                        <td class="px-4 py-4 text-gray-500">Office</td>
+                                        <td class="px-4 py-4 text-right font-mono">$40,000</td>
+                                        <td class="px-4 py-4 text-right font-mono text-brand-gold">$43,100</td>
+                                        <td class="px-4 py-4 text-right text-green-500">+7.75%</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div id="panel-opportunities" class="panel-content hidden">
+                    <div class="section-panel">
+                        <div class="flex justify-between items-center mb-6">
+                            <h2 class="font-semibold text-xl">Investment Opportunities</h2>
+                            <a href="properties.html" class="text-brand-gold text-sm hover:underline">View All</a>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            <!-- Card 1 -->
+                            <div class="border border-brand-stone/20 dark:border-white/5 rounded-sm overflow-hidden hover:border-brand-gold transition-colors flex flex-col h-full">
+                                <div class="h-48 bg-gray-200 dark:bg-gray-800">
+                                    <img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&q=80&w=600" alt="Manhattan Tower" class="w-full h-full object-cover">
+                                </div>
+                                <div class="p-5 flex flex-col flex-grow">
+                                    <h3 class="font-bold mb-1">The Manhattan Tower</h3>
+                                    <p class="text-xs text-gray-500 mb-4">New York, NY • Commercial</p>
+                                    <div class="flex justify-between text-sm mb-2 mt-auto"><span class="text-gray-500">Target Return</span><span class="font-medium text-brand-gold">12.5%</span></div>
+                                    <div class="flex justify-between text-sm mb-4"><span class="text-gray-500">Min. Investment</span><span class="font-medium">$25,000</span></div>
+                                    <button class="w-full bg-brand-charcoal dark:bg-brand-gold text-white dark:text-brand-charcoal py-2 text-sm font-medium hover:bg-brand-gold dark:hover:bg-white transition-colors">Invest Now</button>
+                                </div>
+                            </div>
+                            <!-- Card 2 -->
+                            <div class="border border-brand-stone/20 dark:border-white/5 rounded-sm overflow-hidden hover:border-brand-gold transition-colors flex flex-col h-full">
+                                <div class="h-48 bg-gray-200 dark:bg-gray-800">
+                                    <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&q=80&w=600" alt="Azure Residences" class="w-full h-full object-cover">
+                                </div>
+                                <div class="p-5 flex flex-col flex-grow">
+                                    <h3 class="font-bold mb-1">Azure Residences</h3>
+                                    <p class="text-xs text-gray-500 mb-4">Miami, FL • Multifamily</p>
+                                    <div class="flex justify-between text-sm mb-2 mt-auto"><span class="text-gray-500">Target Return</span><span class="font-medium text-brand-gold">15.0%</span></div>
+                                    <div class="flex justify-between text-sm mb-4"><span class="text-gray-500">Min. Investment</span><span class="font-medium">$10,000</span></div>
+                                    <button class="w-full bg-brand-charcoal dark:bg-brand-gold text-white dark:text-brand-charcoal py-2 text-sm font-medium hover:bg-brand-gold dark:hover:bg-white transition-colors">Invest Now</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="panel-transactions" class="panel-content hidden">
+                    <div class="section-panel">
+                        <h2 class="font-semibold text-xl mb-6">Transaction History</h2>
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between p-4 border border-brand-stone/20 dark:border-white/5 rounded-sm">
+                                <div class="flex items-center gap-4">
+                                    <div class="w-10 h-10 rounded-full bg-green-100 dark:bg-green-900/30 text-green-600 flex items-center justify-center">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-medium text-sm">Account Funding</h4>
+                                        <p class="text-xs text-gray-500">Wire Transfer • Sept 15, 2026</p>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <div class="font-mono font-medium text-green-600">+$50,000.00</div>
+                                    <div class="text-xs text-gray-500">Completed</div>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between p-4 border border-brand-stone/20 dark:border-white/5 rounded-sm">
+                                <div class="flex items-center gap-4">
+                                    <div class="w-10 h-10 rounded-full bg-brand-gold/10 text-brand-gold flex items-center justify-center">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-medium text-sm">Investment: Azure Residences</h4>
+                                        <p class="text-xs text-gray-500">Capital Call • Aug 22, 2026</p>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <div class="font-mono font-medium text-brand-charcoal dark:text-white">-$25,000.00</div>
+                                    <div class="text-xs text-gray-500">Completed</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="panel-distributions" class="panel-content hidden">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                        <div class="stat-card">
+                            <div class="text-xs text-gray-500 uppercase tracking-wider mb-2">Total Received</div>
+                            <div class="text-3xl font-bold font-mono text-brand-gold">$10,450</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="text-xs text-gray-500 uppercase tracking-wider mb-2">Next Scheduled</div>
+                            <div class="text-3xl font-bold font-mono">$1,200</div>
+                            <div class="text-xs text-gray-400 mt-1">Oct 1, 2026</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="text-xs text-gray-500 uppercase tracking-wider mb-2">Reinvested</div>
+                            <div class="text-3xl font-bold font-mono">$0.00</div>
+                        </div>
+                    </div>
+                    <div class="section-panel">
+                        <h2 class="font-semibold text-xl mb-6">Distribution History</h2>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-sm text-left">
+                                <thead class="text-xs text-gray-500 uppercase bg-gray-50 dark:bg-gray-800/50">
+                                    <tr>
+                                        <th class="px-4 py-3 font-medium">Date</th>
+                                        <th class="px-4 py-3 font-medium">Property</th>
+                                        <th class="px-4 py-3 font-medium">Type</th>
+                                        <th class="px-4 py-3 font-medium text-right">Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-brand-stone/20 dark:divide-white/5">
+                                    <tr class="hover:bg-gray-50 dark:hover:bg-gray-800/30 transition-colors">
+                                        <td class="px-4 py-4 text-gray-500">Sep 1, 2026</td>
+                                        <td class="px-4 py-4 font-medium">The Manhattan Tower</td>
+                                        <td class="px-4 py-4 text-gray-500">Quarterly Dividend</td>
+                                        <td class="px-4 py-4 text-right font-mono text-brand-gold">$850.00</td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50 dark:hover:bg-gray-800/30 transition-colors">
+                                        <td class="px-4 py-4 text-gray-500">Aug 1, 2026</td>
+                                        <td class="px-4 py-4 font-medium">Azure Residences</td>
+                                        <td class="px-4 py-4 text-gray-500">Rental Income</td>
+                                        <td class="px-4 py-4 text-right font-mono text-brand-gold">$350.00</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div id="panel-documents" class="panel-content hidden">
+                    <div class="section-panel">
+                        <div class="flex justify-between items-center mb-6">
+                            <h2 class="font-semibold text-xl">My Documents</h2>
+                            <button class="text-sm border border-brand-stone/50 px-3 py-1.5 hover:border-brand-gold transition-colors rounded-sm">Download All</button>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="flex items-start gap-4 p-4 border border-brand-stone/20 dark:border-white/5 rounded-sm hover:border-brand-gold transition-colors cursor-pointer group">
+                                <div class="text-red-500 group-hover:text-brand-gold transition-colors">
+                                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium text-sm">2025 Schedule K-1 (Form 1065)</h4>
+                                    <p class="text-xs text-gray-500 mb-2">Tax Document • Added Mar 15, 2026</p>
+                                    <a href="#" class="text-xs text-brand-gold hover:underline">Download PDF</a>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-4 p-4 border border-brand-stone/20 dark:border-white/5 rounded-sm hover:border-brand-gold transition-colors cursor-pointer group">
+                                <div class="text-blue-500 group-hover:text-brand-gold transition-colors">
+                                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium text-sm">Q3 2026 Performance Report</h4>
+                                    <p class="text-xs text-gray-500 mb-2">Quarterly Statement • Added Oct 5, 2026</p>
+                                    <a href="#" class="text-xs text-brand-gold hover:underline">Download PDF</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="panel-profile" class="panel-content hidden">
+                    <div class="section-panel max-w-3xl">
+                        <h2 class="font-semibold text-xl mb-6">My Profile</h2>
+                        <div class="flex items-center gap-6 mb-8 pb-8 border-b border-brand-stone/20 dark:border-white/5">
+                            <div class="w-20 h-20 bg-brand-gold text-brand-charcoal rounded-full flex items-center justify-center text-3xl font-bold">JW</div>
+                            <div>
+                                <h3 class="text-lg font-medium">James Whitfield</h3>
+                                <p class="text-sm text-gray-500">james.whitfield@example.com</p>
+                                <span class="inline-block mt-2 px-3 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 text-xs font-medium rounded-full">Accredited Investor ✓</span>
+                            </div>
+                        </div>
+                        <form class="space-y-6">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label class="block text-xs font-medium text-gray-500 uppercase tracking-wider mb-2">First Name</label>
+                                    <input type="text" value="James" class="w-full bg-gray-50 dark:bg-brand-nearblack border border-brand-stone/30 dark:border-white/10 rounded-sm px-4 py-2 text-sm focus:outline-none focus:border-brand-gold transition-colors whitespace-nowrap">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-medium text-gray-500 uppercase tracking-wider mb-2">Last Name</label>
+                                    <input type="text" value="Whitfield" class="w-full bg-gray-50 dark:bg-brand-nearblack border border-brand-stone/30 dark:border-white/10 rounded-sm px-4 py-2 text-sm focus:outline-none focus:border-brand-gold transition-colors whitespace-nowrap">
+                                </div>
+                                <div class="md:col-span-2">
+                                    <label class="block text-xs font-medium text-gray-500 uppercase tracking-wider mb-2">Primary Address</label>
+                                    <input type="text" value="123 Financial District Ave, Suite 400, New York, NY 10005" class="w-full bg-gray-50 dark:bg-brand-nearblack border border-brand-stone/30 dark:border-white/10 rounded-sm px-4 py-2 text-sm focus:outline-none focus:border-brand-gold transition-colors whitespace-nowrap">
+                                </div>
+                            </div>
+                            <div class="pt-4">
+                                <button type="button" class="bg-brand-charcoal dark:bg-brand-gold text-white dark:text-brand-charcoal px-6 py-2.5 rounded-sm text-sm font-medium hover:bg-brand-gold dark:hover:bg-white transition-colors whitespace-nowrap">Save Changes</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div id="panel-settings" class="panel-content hidden">
+                    <div class="section-panel max-w-3xl">
+                        <h2 class="font-semibold text-xl mb-6">Account Settings</h2>
+                        
+                        <div class="mb-8">
+                            <h3 class="text-sm font-bold uppercase tracking-wider text-gray-400 mb-4">Notifications</h3>
+                            <div class="space-y-4">
+                                <label class="flex items-center gap-3 cursor-pointer">
+                                    <input type="checkbox" checked class="w-4 h-4 text-brand-gold rounded focus:ring-brand-gold accent-brand-gold bg-transparent border-gray-400">
+                                    <span class="text-sm">Email me when a new investment opportunity is available</span>
+                                </label>
+                                <label class="flex items-center gap-3 cursor-pointer">
+                                    <input type="checkbox" checked class="w-4 h-4 text-brand-gold rounded focus:ring-brand-gold accent-brand-gold bg-transparent border-gray-400">
+                                    <span class="text-sm">Send quarterly performance reports via email</span>
+                                </label>
+                                <label class="flex items-center gap-3 cursor-pointer">
+                                    <input type="checkbox" class="w-4 h-4 text-brand-gold rounded focus:ring-brand-gold accent-brand-gold bg-transparent border-gray-400">
+                                    <span class="text-sm">SMS alerts for distributions and deposits</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="mb-8 border-t border-brand-stone/20 dark:border-white/5 pt-8">
+                            <h3 class="text-sm font-bold uppercase tracking-wider text-gray-400 mb-4">Security</h3>
+                            <div class="flex items-center justify-between py-3 border-b border-brand-stone/20 dark:border-white/5">
+                                <div>
+                                    <p class="font-medium text-sm">Two-Factor Authentication (2FA)</p>
+                                    <p class="text-xs text-gray-500 mt-1">Add an extra layer of security to your account</p>
+                                </div>
+                                <button class="text-sm px-4 py-2 bg-gray-100 dark:bg-gray-800 rounded-sm font-medium hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">Enable 2FA</button>
+                            </div>
+                            <div class="flex items-center justify-between py-3">
+                                <div>
+                                    <p class="font-medium text-sm">Password</p>
+                                    <p class="text-xs text-gray-500 mt-1">Last changed 3 months ago</p>
+                                </div>
+                                <button class="text-sm px-4 py-2 border border-brand-stone/50 rounded-sm font-medium hover:border-brand-gold hover:text-brand-gold transition-colors whitespace-nowrap">Change Password</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </main>
+        </div><!-- end main content -->
+
+    </div><!-- end flex wrapper -->
+
+    <!-- Scroll to Top -->
+    <button id="scroll-to-top" class="fixed bottom-8 right-8 bg-brand-charcoal dark:bg-brand-gold text-white dark:text-brand-charcoal p-3 rounded-full shadow-lg opacity-0 pointer-events-none transition-all duration-300 hover:-translate-y-1 z-50 focus:outline-none" aria-label="Scroll to top">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
+    </button>
+
+    <script src="assets/js/main.js"></script>
+    <script>
+        // ---- Sidebar Navigation ----
+        const navItems = document.querySelectorAll('.nav-item[data-panel]');
+        const panels = document.querySelectorAll('.panel-content');
+        const panelTitle = document.getElementById('panel-title');
+        const panelLabels = {
+            overview: 'Portfolio Overview', portfolio: 'My Portfolio',
+            opportunities: 'Investment Opportunities', transactions: 'Transaction History',
+            distributions: 'Distributions', documents: 'Tax & Documents',
+            profile: 'My Profile', settings: 'Settings'
+        };
+
+        navItems.forEach(item => {
+            item.addEventListener('click', function() {
+                navItems.forEach(n => n.classList.remove('active'));
+                this.classList.add('active');
+                const target = this.dataset.panel;
+                panels.forEach(p => p.classList.add('hidden'));
+                const targetPanel = document.getElementById('panel-' + target);
+                if (targetPanel) targetPanel.classList.remove('hidden');
+                if (panelTitle) panelTitle.textContent = panelLabels[target] || 'Dashboard';
+                // Close mobile sidebar on selection
+                closeSidebar();
+            });
+        });
+
+        // ---- Mobile Sidebar ----
+        const sidebar = document.getElementById('sidebar');
+        const sidebarOverlay = document.getElementById('sidebar-overlay');
+        const sidebarOpen = document.getElementById('sidebar-open');
+        const sidebarClose = document.getElementById('sidebar-close');
+
+        function openSidebar() {
+            sidebar.classList.remove('-translate-x-full');
+            sidebarOverlay.classList.remove('hidden');
+        }
+        function closeSidebar() {
+            sidebar.classList.add('-translate-x-full');
+            sidebarOverlay.classList.add('hidden');
+        }
+        if (sidebarOpen) sidebarOpen.addEventListener('click', openSidebar);
+        if (sidebarClose) sidebarClose.addEventListener('click', closeSidebar);
+        if (sidebarOverlay) sidebarOverlay.addEventListener('click', closeSidebar);
+
+        // ---- Dashboard Theme/RTL ----
+        document.getElementById('dash-theme-toggle').addEventListener('click', function() {
+            const isDark = document.documentElement.classList.toggle('dark');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        });
+        document.getElementById('dash-rtl-toggle').addEventListener('click', function() {
+            const isRtl = document.documentElement.getAttribute('dir') === 'rtl';
+            document.documentElement.setAttribute('dir', isRtl ? 'ltr' : 'rtl');
+            localStorage.setItem('rtl', !isRtl);
+        });
+
+        // ---- Charts ----
+        document.addEventListener('DOMContentLoaded', function() {
+            const isDark = document.documentElement.classList.contains('dark');
+            const gridColor = isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.07)';
+            Chart.defaults.font.family = "'Inter', sans-serif";
+            Chart.defaults.color = isDark ? '#9CA3AF' : '#6B7280';
+
+            // Portfolio Line Chart
+            const pCtx = document.getElementById('dash-portfolio-chart');
+            if (pCtx) {
+                new Chart(pCtx, {
+                    type: 'line',
+                    data: {
+                        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
+                        datasets: [{
+                            label: 'Portfolio Value',
+                            data: [100000, 102500, 104000, 106000, 108500, 110000, 112000, 120000, 125450],
+                            borderColor: '#C5A880',
+                            backgroundColor: 'rgba(197,168,128,0.1)',
+                            borderWidth: 2.5,
+                            tension: 0.4,
+                            fill: true,
+                            pointRadius: 4,
+                            pointBackgroundColor: '#C5A880'
+                        }]
+                    },
+                    options: {
+                        responsive: true, maintainAspectRatio: false,
+                        plugins: { legend: { display: false } },
+                        scales: {
+                            x: { grid: { color: gridColor } },
+                            y: { grid: { color: gridColor }, ticks: { callback: v => '$' + (v/1000).toFixed(0) + 'K' } }
+                        }
+                    }
+                });
+            }
+
+            // Allocation Doughnut
+            const aCtx = document.getElementById('dash-alloc-chart');
+            if (aCtx) {
+                new Chart(aCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Commercial', 'Multifamily', 'Industrial', 'Hospitality'],
+                        datasets: [{
+                            data: [45000, 35000, 25000, 10000],
+                            backgroundColor: ['#C5A880', isDark ? '#F9F8F6' : '#1A1A1A', '#888', isDark ? '#555' : '#D9D5D0'],
+                            borderWidth: 0, hoverOffset: 4
+                        }]
+                    },
+                    options: {
+                        responsive: true, maintainAspectRatio: false, cutout: '68%',
+                        plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, padding: 12, font: { size: 10 } } } }
+                    }
+                });
+            }
+        });
+
+        // Scroll to top button in dashboard's main scroll area
+        const mainEl = document.querySelector('main');
+        const scrollTopBtn = document.getElementById('scroll-to-top');
+        if (mainEl && scrollTopBtn) {
+            mainEl.addEventListener('scroll', () => {
+                if (mainEl.scrollTop > 400) {
+                    scrollTopBtn.classList.remove('opacity-0', 'pointer-events-none');
+                    scrollTopBtn.classList.add('opacity-100');
+                } else {
+                    scrollTopBtn.classList.add('opacity-0', 'pointer-events-none');
+                    scrollTopBtn.classList.remove('opacity-100');
+                }
+            });
+            scrollTopBtn.addEventListener('click', () => mainEl.scrollTo({ top: 0, behavior: 'smooth' }));
+        }
+    </script>
+</body>
+</html>

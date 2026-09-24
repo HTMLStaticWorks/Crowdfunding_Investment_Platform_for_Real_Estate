@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aura | Modern Digital Real Estate Investing</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <meta name="description" content="Access private real estate markets digitally. Diversify your portfolio with premium opportunities.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS v3 CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            charcoal: '#1A1A1A',
+                            nearblack: '#0D0D0D',
+                            ivory: '#F9F8F6',
+                            stone: '#D9D5D0',
+                            gold: '#C5A880',
+                            mutedgold: '#D4C0A1'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Playfair Display', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="antialiased flex flex-col min-h-screen bg-brand-ivory text-brand-charcoal dark:bg-brand-nearblack dark:text-brand-ivory transition-colors duration-300">
+    
+    <!-- HEADER -->
+    <header id="main-header" class="fixed w-full top-0 z-50 bg-brand-ivory/90 dark:bg-brand-nearblack/90 backdrop-blur-md border-b border-brand-stone/30 dark:border-brand-charcoal transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo -->
+                <div class="flex-shrink-0 flex items-center">
+                    <a href="index.html" class="font-display font-bold text-2xl tracking-wider text-brand-charcoal dark:text-brand-ivory flex items-center gap-2">
+                        <svg class="w-8 h-8 text-brand-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+                        AURA
+                    </a>
+                </div>
+                
+                <!-- Desktop Navigation -->
+                <nav class="hidden lg:flex lg:gap-4 xl:gap-8 items-center">
+                    <a href="index.html" class="text-sm font-medium hover:text-brand-gold transition-colors">Home</a>
+                    <a href="home-2.html" class="text-sm font-medium text-brand-gold transition-colors">Home 2</a>
+                    <a href="about.html" class="text-sm font-medium hover:text-brand-gold transition-colors">About</a>
+                    <a href="properties.html" class="text-sm font-medium hover:text-brand-gold transition-colors">Properties</a>
+                    <a href="returns.html" class="text-sm font-medium hover:text-brand-gold transition-colors">Track Record</a>
+                    <a href="contact.html" class="text-sm font-medium hover:text-brand-gold transition-colors">Contact</a>
+                    <a href="dashboard.html" class="text-sm font-medium hover:text-brand-gold transition-colors">Dashboard</a>
+                </nav>
+                
+                <!-- Actions -->
+                <div class="hidden lg:flex items-center lg:gap-4 xl:gap-6">
+                    <button id="theme-toggle" class="w-10 h-10 flex items-center justify-center border border-brand-stone/30 dark:border-brand-charcoal rounded-sm text-gray-500 hover:text-brand-gold hover:border-brand-gold dark:text-gray-400 dark:hover:text-brand-gold dark:hover:border-brand-gold transition-colors" aria-label="Toggle Theme">
+                        <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+                        <svg id="theme-toggle-light-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"></path></svg>
+                    </button>
+                    <button id="rtl-toggle" class="w-10 h-10 flex items-center justify-center border border-brand-stone/30 dark:border-brand-charcoal rounded-sm text-sm font-medium text-gray-500 hover:text-brand-gold hover:border-brand-gold dark:text-gray-400 dark:hover:text-brand-gold dark:hover:border-brand-gold transition-colors">RTL</button>
+                    <a href="signup.html" class="bg-brand-charcoal dark:bg-brand-gold text-white dark:text-brand-charcoal px-5 py-2.5 rounded-sm text-sm font-medium hover:bg-brand-gold dark:hover:bg-white transition-colors whitespace-nowrap">Signup</a>
+                </div>
+                
+                <!-- Mobile menu button -->
+                <div class="lg:hidden flex items-center gap-4">
+                    
+                    <button id="mobile-menu-btn" class="text-brand-charcoal dark:text-brand-ivory focus:outline-none">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path id="menu-icon-open" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16"></path>
+                            <path id="menu-icon-close" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden lg:hidden bg-brand-ivory dark:bg-brand-nearblack border-t border-brand-stone/30 dark:border-brand-charcoal pb-6">
+            <div class="px-4 pt-4 pb-3 space-y-1">
+                <a href="index.html" class="block px-3 py-2 text-base font-medium hover:text-brand-gold">Home</a>
+                <a href="home-2.html" class="block px-3 py-2 text-base font-medium text-brand-gold">Home 2</a>
+                <a href="about.html" class="block px-3 py-2 text-base font-medium hover:text-brand-gold">About</a>
+                <a href="properties.html" class="block px-3 py-2 text-base font-medium hover:text-brand-gold">Properties</a>
+                <a href="returns.html" class="block px-3 py-2 text-base font-medium hover:text-brand-gold">Track Record</a>
+                <a href="contact.html" class="block px-3 py-2 text-base font-medium hover:text-brand-gold">Contact</a>
+                <a href="dashboard.html" class="block px-3 py-2 text-base font-medium hover:text-brand-gold">Dashboard</a>
+                <div class="border-t border-brand-stone/30 dark:border-brand-charcoal my-2 pt-2"></div>
+                <button id="mobile-theme-toggle" class="block px-3 py-2 text-base font-medium w-full text-left hover:text-brand-gold dark:hover:text-brand-gold flex items-center justify-between">
+                    <span>Theme</span>
+                    <div class="flex items-center">
+                        <svg id="mobile-theme-toggle-dark-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+                        <svg id="mobile-theme-toggle-light-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"></path></svg>
+                    </div>
+                </button>
+                <button id="mobile-rtl-toggle" class="block px-3 py-2 text-base font-medium w-full text-left hover:text-brand-gold dark:hover:text-brand-gold">Toggle RTL</button>
+                <a href="signup.html" class="block mt-4 text-center bg-brand-charcoal dark:bg-brand-gold text-white dark:text-brand-charcoal px-5 py-3 rounded-sm font-medium">Signup</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow pt-20">
+        <!-- Section 1 - Editorial Hero (Split Screen) -->
+        <section class="min-h-[70vh] flex flex-col lg:flex-row bg-brand-ivory dark:bg-brand-nearblack">
+            <!-- Left Content -->
+            <div class="w-full lg:w-1/2 flex items-center justify-center p-8 lg:p-24 relative z-10">
+                <div class="max-w-xl">
+                    <div class="inline-flex items-center gap-2 mb-6">
+                        <span class="w-12 h-px bg-brand-gold"></span>
+                        <span class="text-brand-gold font-medium uppercase tracking-widest text-xs">Portfolio Mastery</span>
+                    </div>
+                    <h1 class="font-display text-5xl md:text-6xl font-bold leading-tight mb-8 text-balance">
+                        The New Standard of Wealth Generation
+                    </h1>
+                    <p class="text-gray-600 dark:text-gray-400 text-lg md:text-xl mb-12 font-light text-balance leading-relaxed">
+                        Step into a digital-first real estate investing experience. Access high-yield commercial assets previously reserved for institutional funds.
+                    </p>
+                    <a href="properties.html" class="inline-flex items-center gap-4 group">
+                        <span class="bg-brand-charcoal dark:bg-white text-white dark:text-brand-charcoal px-8 py-4 rounded-sm text-sm uppercase tracking-wider font-medium group-hover:bg-brand-gold dark:group-hover:bg-brand-gold dark:group-hover:text-white transition-colors whitespace-nowrap">Explore Opportunities</span>
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Right Image -->
+            <div class="w-full lg:w-1/2 h-[50vh] lg:h-auto relative">
+                <img src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&q=80&w=2000" alt="Modern Architecture" class="w-full h-full object-cover">
+                <div class="absolute inset-0 bg-gradient-to-t from-brand-charcoal/40 to-transparent"></div>
+            </div>
+        </section>
+
+        <!-- Section 2 - Digital Real Estate -->
+        <section class="py-24 bg-white dark:bg-brand-charcoal">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+                    <div class="order-2 md:order-1 relative">
+                        <div class="aspect-square rounded-sm overflow-hidden border border-brand-stone/30 dark:border-white/10 relative">
+                            <img src="https://images.unsplash.com/photo-1460472178825-e5240623afd5?auto=format&fit=crop&q=80&w=1000" alt="Financial Analysis" class="w-full h-full object-cover grayscale opacity-90 hover:grayscale-0 transition-all duration-700">
+                        </div>
+                        <!-- Floating metric card -->
+                        <div class="absolute -bottom-8 -right-8 bg-brand-nearblack text-white p-6 rounded-sm shadow-xl hidden md:block w-64 border border-brand-gold/30">
+                            <div class="text-brand-gold text-xs uppercase tracking-wider mb-2">Global Diversification</div>
+                            <div class="text-3xl font-display font-semibold mb-1">5+</div>
+                            <div class="text-sm text-gray-400">Asset Classes Available</div>
+                        </div>
+                    </div>
+                    
+                    <div class="order-1 md:order-2">
+                        <h2 class="font-display text-4xl font-bold mb-6">Redefining Property Investment</h2>
+                        <p class="text-gray-600 dark:text-gray-400 text-lg mb-8 text-balance">
+                            By leveraging digital infrastructure, we eliminate the friction of traditional real estate investing. Build a robust portfolio of premium properties directly from your dashboard.
+                        </p>
+                        
+                        <ul class="space-y-6">
+                            <li class="flex gap-4">
+                                <div class="flex-shrink-0 w-8 h-8 rounded-full bg-brand-gold/20 flex items-center justify-center text-brand-gold">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-lg mb-1">Property Diversification</h4>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">Spread capital across multiple distinct properties to mitigate single-asset risk.</p>
+                                </div>
+                            </li>
+                            <li class="flex gap-4">
+                                <div class="flex-shrink-0 w-8 h-8 rounded-full bg-brand-gold/20 flex items-center justify-center text-brand-gold">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-lg mb-1">Asset Class Variance</h4>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">Access multifamily, industrial, logistics, and mixed-use commercial developments.</p>
+                                </div>
+                            </li>
+                            <li class="flex gap-4">
+                                <div class="flex-shrink-0 w-8 h-8 rounded-full bg-brand-gold/20 flex items-center justify-center text-brand-gold">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-lg mb-1">Geographic Spread</h4>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">Invest in high-growth primary and secondary markets across the country.</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3 - Curated Property Showcase -->
+        <section class="py-24 bg-brand-ivory dark:bg-brand-nearblack">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="font-display text-4xl font-bold mb-4">Investment Sectors</h2>
+                    <p class="text-gray-600 dark:text-gray-400 text-lg max-w-2xl mx-auto">Targeted acquisitions across sectors poised for long-term growth and stable yields.</p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 h-[600px]">
+                    <!-- Sector 1 -->
+                    <a href="properties.html?category=multifamily" class="relative group overflow-hidden rounded-sm h-full block">
+                        <img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&q=80&w=600" alt="Multifamily" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent group-hover:from-black/90 transition-all"></div>
+                        <div class="absolute bottom-6 left-6 right-6">
+                            <h3 class="text-white font-display text-xl font-semibold mb-1">Multifamily</h3>
+                            <p class="text-gray-300 text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 translate-y-4 group-hover:translate-y-0">Value-add apartment communities</p>
+                        </div>
+                    </a>
+                    
+                    <!-- Sector 2 -->
+                    <a href="properties.html?category=commercial" class="relative group overflow-hidden rounded-sm h-full block">
+                        <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=1000" alt="Commercial" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent group-hover:from-black/90 transition-all"></div>
+                        <div class="absolute bottom-6 left-6 right-6">
+                            <h3 class="text-white font-display text-xl font-semibold mb-1">Commercial Office</h3>
+                            <p class="text-gray-300 text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 translate-y-4 group-hover:translate-y-0">Class A suburban and urban spaces</p>
+                        </div>
+                    </a>
+                    
+                    <!-- Sector 3 -->
+                    <a href="properties.html?category=industrial" class="relative group overflow-hidden rounded-sm h-full block">
+                        <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&q=80&w=600" alt="Industrial" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent group-hover:from-black/90 transition-all"></div>
+                        <div class="absolute bottom-6 left-6 right-6">
+                            <h3 class="text-white font-display text-xl font-semibold mb-1">Industrial</h3>
+                            <p class="text-gray-300 text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 translate-y-4 group-hover:translate-y-0">Logistics and distribution centers</p>
+                        </div>
+                    </a>
+                    
+                    <!-- Sector 4 -->
+                    <a href="properties.html?category=hospitality" class="relative group overflow-hidden rounded-sm h-full block">
+                        <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&q=80&w=600" alt="Hospitality" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent group-hover:from-black/90 transition-all"></div>
+                        <div class="absolute bottom-6 left-6 right-6">
+                            <h3 class="text-white font-display text-xl font-semibold mb-1">Hospitality</h3>
+                            <p class="text-gray-300 text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 translate-y-4 group-hover:translate-y-0">Premium boutique and resort assets</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4 - Investor Transparency -->
+        <section class="py-24 bg-white dark:bg-brand-charcoal border-t border-brand-stone/30 dark:border-white/5">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex flex-col lg:flex-row gap-16 items-center">
+                    <div class="lg:w-1/2">
+                        <h2 class="font-display text-4xl font-bold mb-6">Total Transparency</h2>
+                        <p class="text-gray-600 dark:text-gray-400 text-lg mb-10 text-balance">
+                            The Aura investor portal brings institutional-grade reporting directly to your fingertips. Monitor every aspect of your investments securely.
+                        </p>
+                        
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-6">
+                            <div class="border-l-2 border-brand-gold pl-4">
+                                <h4 class="font-semibold text-lg mb-1">Capital Tracking</h4>
+                                <p class="text-sm text-gray-500 dark:text-gray-400">Monitor contributions and asset appreciation in real-time.</p>
+                            </div>
+                            <div class="border-l-2 border-brand-gold pl-4">
+                                <h4 class="font-semibold text-lg mb-1">Distribution History</h4>
+                                <p class="text-sm text-gray-500 dark:text-gray-400">View clear records of all yield payouts and schedules.</p>
+                            </div>
+                            <div class="border-l-2 border-brand-gold pl-4">
+                                <h4 class="font-semibold text-lg mb-1">Property Updates</h4>
+                                <p class="text-sm text-gray-500 dark:text-gray-400">Receive direct reports on leasing, construction, and sales.</p>
+                            </div>
+                            <div class="border-l-2 border-brand-gold pl-4">
+                                <h4 class="font-semibold text-lg mb-1">Document Vault</h4>
+                                <p class="text-sm text-gray-500 dark:text-gray-400">Access tax forms (K-1s) and legal agreements securely.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Dashboard Mockup Image -->
+                    <div class="lg:w-1/2 w-full">
+                        <div class="bg-brand-stone/20 dark:bg-brand-nearblack rounded-lg p-2 shadow-2xl border border-brand-stone/40 dark:border-white/10 transform rotate-1 hover:rotate-0 transition-transform duration-500">
+                            <div class="bg-white dark:bg-brand-charcoal rounded p-4">
+                                <div class="flex items-center gap-2 mb-4 pb-4 border-b border-gray-200 dark:border-gray-800">
+                                    <div class="w-3 h-3 rounded-full bg-red-400"></div>
+                                    <div class="w-3 h-3 rounded-full bg-yellow-400"></div>
+                                    <div class="w-3 h-3 rounded-full bg-green-400"></div>
+                                    <div class="text-xs text-gray-400 ml-4 font-mono">dashboard.aura-invest.com</div>
+                                </div>
+                                <div class="grid grid-cols-3 gap-4 mb-4">
+                                    <div class="col-span-2 bg-gray-50 dark:bg-gray-900 rounded p-4 border border-gray-100 dark:border-gray-800">
+                                        <div class="text-xs text-gray-400 mb-1">Portfolio Value</div>
+                                        <div class="text-2xl font-bold font-mono">$125,450</div>
+                                        <div class="h-24 mt-4 w-full flex items-end gap-1">
+                                            <div class="w-full bg-brand-gold/40 h-[40%] rounded-t"></div>
+                                            <div class="w-full bg-brand-gold/60 h-[55%] rounded-t"></div>
+                                            <div class="w-full bg-brand-gold/80 h-[70%] rounded-t"></div>
+                                            <div class="w-full bg-brand-gold h-[90%] rounded-t"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-span-1 flex flex-col gap-4">
+                                        <div class="bg-gray-50 dark:bg-gray-900 rounded p-4 border border-gray-100 dark:border-gray-800 flex-1">
+                                            <div class="text-xs text-gray-400 mb-1">Active Assets</div>
+                                            <div class="text-xl font-bold">4</div>
+                                        </div>
+                                        <div class="bg-gray-50 dark:bg-gray-900 rounded p-4 border border-gray-100 dark:border-gray-800 flex-1">
+                                            <div class="text-xs text-gray-400 mb-1">Yield (YTD)</div>
+                                            <div class="text-xl font-bold text-green-600 dark:text-green-400">+8.2%</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5 - Premium Investor CTA -->
+        <section class="py-24 bg-brand-nearblack text-white relative">
+            <div class="absolute inset-0 z-0">
+                <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=2000" alt="Cityscape" class="w-full h-full object-cover opacity-20">
+                <div class="absolute inset-0 bg-brand-nearblack/80"></div>
+            </div>
+            
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+                <h2 class="font-display text-4xl md:text-5xl font-bold mb-6">Elevate Your Investment Strategy</h2>
+                <p class="text-gray-300 text-lg mb-10 text-balance">
+                    Join a community of forward-thinking investors accessing premium, vetted real estate opportunities through a secure digital platform.
+                </p>
+                
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="signup.html" class="bg-brand-gold text-brand-charcoal hover:bg-white px-8 py-4 rounded-sm font-medium transition-colors text-sm uppercase tracking-wider whitespace-nowrap">
+                        Create Investor Account
+                    </a>
+                    <a href="properties.html" class="border border-white/30 text-white hover:bg-white/10 px-8 py-4 rounded-sm font-medium transition-colors text-sm uppercase tracking-wider whitespace-nowrap">
+                        Explore Properties
+                    </a>
+                </div>
+                
+                <div class="mt-12 pt-12 border-t border-white/10 flex flex-wrap justify-center gap-8 text-sm text-gray-400">
+                    <div class="flex items-center gap-2">
+                        <svg class="w-5 h-5 text-brand-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                        Bank-Grade Security
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <svg class="w-5 h-5 text-brand-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                        Audited Financials
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <svg class="w-5 h-5 text-brand-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                        Data Privacy
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-brand-ivory dark:bg-brand-nearblack text-brand-charcoal dark:text-gray-300 py-16 border-t border-brand-stone/30 dark:border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 mb-16">
+                
+                <!-- Brand -->
+                <div class="lg:col-span-2">
+                    <a href="index.html" class="font-display font-bold text-2xl tracking-wider text-brand-charcoal dark:text-white flex items-center gap-2 mb-6">
+                        <svg class="w-8 h-8 text-brand-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+                        AURA
+                    </a>
+                    <p class="text-gray-600 dark:text-gray-400 text-sm mb-6 max-w-sm">
+                        Providing digital access to institutional-grade real estate investments. Build a resilient portfolio with transparent, data-driven opportunities.
+                    </p>
+                    <div class="flex gap-4">
+                        <a href="#" class="text-gray-600 dark:text-gray-400 hover:text-brand-gold transition-colors"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+                        <a href="#" class="text-gray-600 dark:text-gray-400 hover:text-brand-gold transition-colors"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg></a>
+                    </div>
+                </div>
+                
+                <!-- Platform -->
+                <div>
+                    <h4 class="text-brand-charcoal dark:text-white font-semibold mb-4 uppercase tracking-wider text-sm">Platform</h4>
+                    <ul class="space-y-3 text-sm">
+                        <li><a href="properties.html" class="hover:text-brand-gold transition-colors">Properties</a></li>
+                        <li><a href="returns.html" class="hover:text-brand-gold transition-colors">Returns & Track Record</a></li>
+                        <li><a href="dashboard.html" class="hover:text-brand-gold transition-colors">Investor Dashboard</a></li>
+                        <li><a href="login.html" class="hover:text-brand-gold transition-colors">Investor Login</a></li>
+                        <li><a href="signup.html" class="hover:text-brand-gold transition-colors">Create Account</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Company -->
+                <div>
+                    <h4 class="text-brand-charcoal dark:text-white font-semibold mb-4 uppercase tracking-wider text-sm">Company</h4>
+                    <ul class="space-y-3 text-sm">
+                        <li><a href="about.html" class="hover:text-brand-gold transition-colors">About Us</a></li>
+                        <li><a href="contact.html" class="hover:text-brand-gold transition-colors">Contact</a></li>
+                        <li><a href="#" class="hover:text-brand-gold transition-colors">FAQs</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Resources -->
+                <div>
+                    <h4 class="text-brand-charcoal dark:text-white font-semibold mb-4 uppercase tracking-wider text-sm">Resources</h4>
+                    <ul class="space-y-3 text-sm">
+                        <li><a href="#" class="hover:text-brand-gold transition-colors">Investment Guide</a></li>
+                        <li><a href="#" class="hover:text-brand-gold transition-colors">Legal & Compliance</a></li>
+                        <li><a href="#" class="hover:text-brand-gold transition-colors">Privacy Policy</a></li>
+                        <li><a href="#" class="hover:text-brand-gold transition-colors">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-brand-stone/30 dark:border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-gray-500">
+                <p>&copy; 2026 Aura Investment Platform. All rights reserved.</p>
+                <p class="mt-4 md:mt-0 text-center md:text-right max-w-xl">
+                    Disclaimer: Real estate investments involve risk, including the loss of principal. Past performance does not guarantee future results. This is for illustrative purposes.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll to Top -->
+    <button id="scroll-to-top" class="fixed bottom-8 right-8 bg-brand-charcoal dark:bg-brand-gold text-white dark:text-brand-charcoal p-3 rounded-full shadow-lg opacity-0 pointer-events-none transition-all duration-300 hover:-translate-y-1 z-50 focus:outline-none" aria-label="Scroll to top">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
+    </button>
+
+    <script src="assets/js/main.js"></script>
+</body>
+</html>

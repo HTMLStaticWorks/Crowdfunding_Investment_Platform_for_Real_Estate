@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Investor Account | Aura</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <meta name="description" content="Join thousands of investors building real estate portfolios on the Aura platform.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            charcoal: '#1A1A1A', nearblack: '#0D0D0D', ivory: '#F9F8F6',
+                            stone: '#D9D5D0', gold: '#C5A880', mutedgold: '#D4C0A1'
+                        }
+                    },
+                    fontFamily: { sans: ['Inter', 'sans-serif'], display: ['Playfair Display', 'serif'] }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="antialiased min-h-screen flex bg-brand-ivory text-brand-charcoal dark:bg-brand-nearblack dark:text-brand-ivory transition-colors duration-300">
+
+    <!-- Page Controls -->
+    <div class="fixed top-6 right-6 flex items-center gap-4 z-50">
+        <button id="theme-toggle" class="w-10 h-10 flex items-center justify-center border border-brand-stone/30 dark:border-brand-charcoal rounded-sm text-gray-500 hover:text-brand-gold hover:border-brand-gold dark:text-gray-400 dark:hover:text-brand-gold dark:hover:border-brand-gold transition-colors bg-white dark:bg-brand-charcoal shadow-sm" aria-label="Toggle Theme">
+            <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+            <svg id="theme-toggle-light-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"></path></svg>
+        </button>
+        <button id="rtl-toggle" class="w-10 h-10 flex items-center justify-center border border-brand-stone/30 dark:border-brand-charcoal rounded-sm text-sm font-medium text-gray-500 hover:text-brand-gold hover:border-brand-gold dark:text-gray-400 dark:hover:text-brand-gold dark:hover:border-brand-gold transition-colors bg-white dark:bg-brand-charcoal shadow-sm">RTL</button>
+    </div>
+
+    <!-- Right Panel — Signup Form -->
+    <div class="w-full flex items-center justify-center bg-brand-ivory dark:bg-brand-nearblack min-h-screen py-12 px-6">
+        <div class="w-full max-w-lg bg-white dark:bg-brand-charcoal rounded-xl shadow-xl border border-brand-stone/30 dark:border-white/10 p-8 sm:p-12">
+            <!-- Logo -->
+            <div class="mb-10 flex justify-center">
+                <a href="index.html" class="font-display font-bold text-2xl tracking-wider text-brand-charcoal dark:text-brand-ivory flex items-center gap-2 justify-center">
+                    <svg class="w-8 h-8 text-brand-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>AURA
+                </a>
+            </div>
+
+            <div class="mb-8 text-center">
+                <h1 class="font-display text-4xl font-bold mb-2">Create Your Account</h1>
+                <p class="text-gray-500 dark:text-gray-400">Begin your real estate investment journey. Registration takes under 3 minutes.</p>
+            </div>
+
+            <form id="signup-form" novalidate class="space-y-5">
+                <!-- Row 1 -->
+                <div class="space-y-5">
+                    <div>
+                        <label for="signup-name" class="block text-sm font-semibold mb-2">Full Name <span class="text-brand-gold">*</span></label>
+                        <input type="text" id="signup-name" name="name" placeholder="James Whitfield" autocomplete="name"
+                            class="w-full bg-white dark:bg-brand-charcoal border border-brand-stone/50 dark:border-white/10 rounded-sm px-4 py-3 text-sm focus:outline-none focus:border-brand-gold focus:ring-1 focus:ring-brand-gold transition-colors placeholder-gray-400 whitespace-nowrap">
+                        <p class="field-error text-red-500 text-xs mt-1 hidden">Full name is required.</p>
+                    </div>
+                    <div>
+                        <label for="signup-phone" class="block text-sm font-semibold mb-2">Phone Number <span class="text-brand-gold">*</span></label>
+                        <input type="tel" id="signup-phone" name="phone" placeholder="+1 (000) 000-0000" autocomplete="tel"
+                            class="w-full bg-white dark:bg-brand-charcoal border border-brand-stone/50 dark:border-white/10 rounded-sm px-4 py-3 text-sm focus:outline-none focus:border-brand-gold focus:ring-1 focus:ring-brand-gold transition-colors placeholder-gray-400 whitespace-nowrap">
+                        <p class="field-error text-red-500 text-xs mt-1 hidden">Phone number is required.</p>
+                    </div>
+                </div>
+
+                <!-- Email -->
+                <div>
+                    <label for="signup-email" class="block text-sm font-semibold mb-2">Email Address <span class="text-brand-gold">*</span></label>
+                    <input type="email" id="signup-email" name="email" placeholder="your@email.com" autocomplete="email"
+                        class="w-full bg-white dark:bg-brand-charcoal border border-brand-stone/50 dark:border-white/10 rounded-sm px-4 py-3 text-sm focus:outline-none focus:border-brand-gold focus:ring-1 focus:ring-brand-gold transition-colors placeholder-gray-400 whitespace-nowrap">
+                    <p class="field-error text-red-500 text-xs mt-1 hidden">Please enter a valid email address.</p>
+                </div>
+
+                <!-- Investor Type -->
+                <div>
+                    <label for="signup-investor-type" class="block text-sm font-semibold mb-2">Investor Type <span class="text-brand-gold">*</span></label>
+                    <select id="signup-investor-type" name="investor_type"
+                        class="w-full bg-white dark:bg-brand-charcoal border border-brand-stone/50 dark:border-white/10 rounded-sm px-4 py-3 text-sm focus:outline-none focus:border-brand-gold focus:ring-1 focus:ring-brand-gold transition-colors whitespace-nowrap">
+                        <option value="">Select your investor type...</option>
+                        <option value="individual">Individual Investor</option>
+                        <option value="joint">Joint Account</option>
+                        <option value="entity">Investment Entity / LLC</option>
+                        <option value="ira">Self-Directed IRA</option>
+                        <option value="trust">Trust</option>
+                        <option value="family_office">Family Office</option>
+                    </select>
+                    <p class="field-error text-red-500 text-xs mt-1 hidden">Please select investor type.</p>
+                </div>
+
+                <!-- Password Row -->
+                <div class="space-y-5">
+                    <div>
+                        <label for="signup-password" class="block text-sm font-semibold mb-2">Password <span class="text-brand-gold">*</span></label>
+                        <div class="relative">
+                            <input type="password" id="signup-password" name="password" placeholder="Min. 8 characters"
+                                class="w-full bg-white dark:bg-brand-charcoal border border-brand-stone/50 dark:border-white/10 rounded-sm px-4 py-3 text-sm focus:outline-none focus:border-brand-gold focus:ring-1 focus:ring-brand-gold transition-colors placeholder-gray-400 pr-12 whitespace-nowrap">
+                            <button type="button" id="toggle-pw1" class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-brand-gold transition-colors" aria-label="Toggle password">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                            </button>
+                        </div>
+                        <p class="field-error text-red-500 text-xs mt-1 hidden">Password must be at least 8 characters.</p>
+                    </div>
+                    <div>
+                        <label for="signup-confirm-password" class="block text-sm font-semibold mb-2">Confirm Password <span class="text-brand-gold">*</span></label>
+                        <div class="relative">
+                            <input type="password" id="signup-confirm-password" name="confirm_password" placeholder="Repeat password"
+                                class="w-full bg-white dark:bg-brand-charcoal border border-brand-stone/50 dark:border-white/10 rounded-sm px-4 py-3 text-sm focus:outline-none focus:border-brand-gold focus:ring-1 focus:ring-brand-gold transition-colors placeholder-gray-400 pr-12 whitespace-nowrap">
+                            <button type="button" id="toggle-pw2" class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-brand-gold transition-colors" aria-label="Toggle password">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                            </button>
+                        </div>
+                        <p class="field-error text-red-500 text-xs mt-1 hidden">Passwords do not match.</p>
+                    </div>
+                </div>
+
+                <!-- Terms -->
+                <div class="flex items-start gap-3 pt-2">
+                    <input type="checkbox" id="accept-terms" name="terms" class="w-4 h-4 accent-brand-gold mt-0.5 flex-shrink-0">
+                    <label for="accept-terms" class="text-sm text-gray-600 dark:text-gray-400 cursor-pointer">
+                        I have read and agree to the <a href="#" class="text-brand-gold hover:underline font-medium">Terms of Service</a> and <a href="#" class="text-brand-gold hover:underline font-medium">Privacy Policy</a>. I understand that real estate investments involve risk.
+                    </label>
+                </div>
+                <p id="terms-error" class="text-red-500 text-xs hidden">You must accept the terms to continue.</p>
+
+                <button type="submit" class="w-full bg-brand-charcoal dark:bg-brand-gold text-white dark:text-brand-charcoal py-4 rounded-sm font-medium text-sm uppercase tracking-wider hover:bg-brand-gold hover:text-white dark:hover:bg-white transition-colors whitespace-nowrap">
+                    Create Investor Account
+                </button>
+
+                <p id="signup-success" class="hidden text-center text-green-600 dark:text-green-400 font-medium text-sm py-3 bg-green-50 dark:bg-green-900/20 rounded-sm border border-green-200 dark:border-green-800">
+                    ✓ Account created successfully. Redirecting to your dashboard...
+                </p>
+            </form>
+
+            <p class="text-center text-sm text-gray-500 dark:text-gray-400 mt-8">
+                Already have an account? <a href="login.html" class="text-brand-gold font-medium hover:underline">Sign in to your portal</a>
+            </p>
+
+            <div class="mt-8 flex justify-center">
+                <button id="signup-theme-toggle" class="hidden" aria-label="Toggle Theme">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+                    Toggle Dark Mode
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="assets/js/main.js"></script>
+    <script>
+        document.getElementById('toggle-pw1').addEventListener('click', function() {
+            const pw = document.getElementById('signup-password');
+            pw.type = pw.type === 'password' ? 'text' : 'password';
+        });
+
+        document.getElementById('toggle-pw2').addEventListener('click', function() {
+            const pw = document.getElementById('signup-confirm-password');
+            pw.type = pw.type === 'password' ? 'text' : 'password';
+        });
+
+        document.getElementById('signup-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            let valid = true;
+
+            const validations = [
+                { id: 'signup-name', test: v => v.trim().length > 1 },
+                { id: 'signup-phone', test: v => v.trim().length > 5 },
+                { id: 'signup-email', test: v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) },
+                { id: 'signup-investor-type', test: v => v !== '' },
+                { id: 'signup-password', test: v => v.length >= 8 },
+                { id: 'signup-confirm-password', test: v => v === document.getElementById('signup-password').value }
+            ];
+
+            validations.forEach(v => {
+                const el = document.getElementById(v.id);
+                const errEl = el.parentElement.querySelector('.field-error') || el.nextElementSibling;
+                if (!v.test(el.value)) {
+                    valid = false;
+                    el.classList.add('border-red-400');
+                    if (errEl && errEl.classList.contains('field-error')) errEl.classList.remove('hidden');
+                } else {
+                    el.classList.remove('border-red-400');
+                    if (errEl && errEl.classList.contains('field-error')) errEl.classList.add('hidden');
+                }
+            });
+
+            const terms = document.getElementById('accept-terms');
+            const termsErr = document.getElementById('terms-error');
+            if (!terms.checked) {
+                valid = false;
+                termsErr.classList.remove('hidden');
+            } else {
+                termsErr.classList.add('hidden');
+            }
+
+            if (valid) {
+                const successEl = document.getElementById('signup-success');
+                successEl.classList.remove('hidden');
+                setTimeout(() => { window.location.href = 'dashboard.html'; }, 2000);
+            }
+        });
+
+        document.getElementById('signup-theme-toggle').addEventListener('click', function() {
+            const isDark = document.documentElement.classList.toggle('dark');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        });
+    </script>
+</body>
+</html>

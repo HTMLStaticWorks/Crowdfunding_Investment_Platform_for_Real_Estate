@@ -1,2 +1,0 @@
-# Crowdfunding_Investment_Platform_for_Real_Estate
-Automated website repository for Crowdfunding_Investment_Platform_for_Real_Estate
