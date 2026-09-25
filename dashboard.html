@@ -114,14 +114,7 @@
 
             <!-- Bottom controls -->
             <div class="p-4 border-t border-white/5 space-y-2">
-                <button id="dash-theme-toggle" class="nav-item w-full text-left">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
-                    Toggle Theme
-                </button>
-                <button id="dash-rtl-toggle" class="nav-item w-full text-left">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path></svg>
-                    Toggle RTL
-                </button>
+
                 <a href="index.html" class="nav-item w-full text-left text-red-400 hover:text-red-300 hover:bg-red-500/10">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
                     Log Out
@@ -147,6 +140,12 @@
                 </div>
                 <div class="flex items-center gap-4">
                     <span class="text-xs text-gray-400 hidden md:block">Last updated: Today, 3:47 PM</span>
+                    <button id="dash-theme-toggle" class="text-gray-500 dark:text-gray-400 hover:text-brand-gold transition-colors" aria-label="Toggle Theme">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+                    </button>
+                    <button id="dash-rtl-toggle" class="text-gray-500 dark:text-gray-400 hover:text-brand-gold transition-colors" aria-label="Toggle RTL">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path></svg>
+                    </button>
                     <a href="properties.html" class="bg-brand-charcoal dark:bg-brand-gold text-white dark:text-brand-charcoal px-4 py-2 rounded-sm text-xs font-medium uppercase tracking-wider hover:bg-brand-gold transition-colors hidden sm:block whitespace-nowrap">Invest More</a>
                 </div>
             </header>
@@ -341,7 +340,7 @@
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
                             <!-- Document cards -->
-                            <div class="flex items-center justify-between p-4 border border-brand-stone/20 dark:border-white/5 rounded-sm hover:border-brand-gold transition-colors">
+                            <div class="flex items-center justify-between gap-4 p-4 border border-brand-stone/20 dark:border-white/5 rounded-sm hover:border-brand-gold transition-colors">
                                 <div class="flex items-center gap-3">
                                     <div class="w-9 h-9 bg-red-100 dark:bg-red-900/20 text-red-600 rounded flex items-center justify-center flex-shrink-0 text-xs font-bold">PDF</div>
                                     <div>
@@ -354,7 +353,7 @@
                                     <button class="text-gray-400 hover:text-brand-gold text-xs font-medium transition-colors">↓</button>
                                 </div>
                             </div>
-                            <div class="flex items-center justify-between p-4 border border-brand-stone/20 dark:border-white/5 rounded-sm hover:border-brand-gold transition-colors">
+                            <div class="flex items-center justify-between gap-4 p-4 border border-brand-stone/20 dark:border-white/5 rounded-sm hover:border-brand-gold transition-colors">
                                 <div class="flex items-center gap-3">
                                     <div class="w-9 h-9 bg-green-100 dark:bg-green-900/20 text-green-600 rounded flex items-center justify-center flex-shrink-0 text-xs font-bold">PDF</div>
                                     <div>
@@ -367,7 +366,7 @@
                                     <button class="text-gray-400 hover:text-brand-gold text-xs font-medium transition-colors">↓</button>
                                 </div>
                             </div>
-                            <div class="flex items-center justify-between p-4 border border-brand-stone/20 dark:border-white/5 rounded-sm hover:border-brand-gold transition-colors">
+                            <div class="flex items-center justify-between gap-4 p-4 border border-brand-stone/20 dark:border-white/5 rounded-sm hover:border-brand-gold transition-colors">
                                 <div class="flex items-center gap-3">
                                     <div class="w-9 h-9 bg-blue-100 dark:bg-blue-900/20 text-blue-600 rounded flex items-center justify-center flex-shrink-0 text-xs font-bold">PDF</div>
                                     <div>
@@ -670,14 +669,14 @@
 
                         <div class="mb-8 border-t border-brand-stone/20 dark:border-white/5 pt-8">
                             <h3 class="text-sm font-bold uppercase tracking-wider text-gray-400 mb-4">Security</h3>
-                            <div class="flex items-center justify-between py-3 border-b border-brand-stone/20 dark:border-white/5">
+                            <div class="flex items-center justify-between gap-4 py-3 border-b border-brand-stone/20 dark:border-white/5">
                                 <div>
                                     <p class="font-medium text-sm">Two-Factor Authentication (2FA)</p>
                                     <p class="text-xs text-gray-500 mt-1">Add an extra layer of security to your account</p>
                                 </div>
                                 <button class="text-sm px-4 py-2 bg-gray-100 dark:bg-gray-800 rounded-sm font-medium hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">Enable 2FA</button>
                             </div>
-                            <div class="flex items-center justify-between py-3">
+                            <div class="flex items-center justify-between gap-4 py-3">
                                 <div>
                                     <p class="font-medium text-sm">Password</p>
                                     <p class="text-xs text-gray-500 mt-1">Last changed 3 months ago</p>
